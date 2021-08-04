@@ -19,7 +19,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private List<Song> m_SongsList;
     private MySongListener listener;
 
-    interface MySongListener {
+    public interface MySongListener {
         void onSongClicked(int position, View view);
     }
 

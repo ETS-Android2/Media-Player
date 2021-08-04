@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MediaPlayer</string>
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
+    <string name="delete_confirm_msg">האם אתה בטוח שאתה רוצה למחוק את השיר?</string>
 </resources>
