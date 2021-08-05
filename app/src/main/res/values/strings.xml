@@ -3,4 +3,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete_confirm_msg">Are you sure you want to delete this song?</string>
+    <string name="enter_song_name_string">Enter song name</string>
+    <string name="enter_song_performer_string">Enter song preformer name</string>
+    <string name="enter_song_link_string">Enter song link</string>
+    <string name="fill_all_fileds_string">Please fill all fileds</string>
+    <string name="please_add_photo_string">Please add photo</string>
 </resources>

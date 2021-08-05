@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddSongActivity"
+    android:orientation="vertical"
+    android:background="#424040">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="@string/enter_song_name_string"
+                android:textColorHint="@color/white"
+                android:gravity="center"
+                android:singleLine="true"
+                android:nextFocusDown="@id/song_name_performer_matirial_editText"
+                android:id="@+id/song_name_matirial_editText"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="@string/enter_song_performer_string"
+                android:textColorHint="@color/white"
+                android:gravity="center"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/song_link_matirial_editText"
+                android:id="@+id/song_name_performer_matirial_editText" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="@string/enter_song_link_string"
+                android:textColorHint="@color/white"
+                android:gravity="center"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/choose_gall_photo_btn"
+                android:id="@+id/song_link_matirial_editText"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="top|center"
+            android:layout_marginTop="10dp"
+            android:layoutDirection="ltr"
+            >
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:background="@null"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/choose_gall_photo_btn"/>
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:background="@null"
+                android:layout_marginStart="10dp"
+                android:id="@+id/take_pic_btn"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                android:id="@+id/song_photo_add_screen" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="start|center"
+                android:scaleType="fitXY"
+                android:background="@null"
+                android:id="@+id/add_song_btn"
+                android:layout_marginLeft="50dp"/>
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="end|center"
+                android:scaleType="fitXY"
+                android:background="@null"
+                android:id="@+id/back_btn"
+                android:layout_marginRight="50dp"/>
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

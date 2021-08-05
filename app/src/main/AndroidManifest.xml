@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MediaPlayer">
-        <activity android:name=".SongDeatailsActivity"></activity>
+        <activity android:name=".AddSongActivity"></activity>
+        <activity android:name=".SongDeatailsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +22,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".MusicPlayerService"/>
-
+        <service android:name=".MusicPlayerService" />
     </application>
 
 </manifest>

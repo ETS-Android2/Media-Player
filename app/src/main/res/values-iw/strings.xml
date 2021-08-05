@@ -4,4 +4,9 @@
     <string name="yes">כן</string>
     <string name="no">לא</string>
     <string name="delete_confirm_msg">האם אתה בטוח שאתה רוצה למחוק את השיר?</string>
+    <string name="enter_song_name_string">הכנס את שם השיר</string>
+    <string name="enter_song_performer_string">הכנס את שם הזמר</string>
+    <string name="enter_song_link_string">הכנס את הלינק לשיר</string>
+    <string name="fill_all_fileds_string">בבקשה למלא את כל השדות</string>
+    <string name="please_add_photo_string">בבקשה הוסף תמונה</string>
 </resources>

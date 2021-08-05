@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.mediaplayer.Model.Song;
 import com.example.mediaplayer.Model.SongAdapter;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button m_AddBtn, m_PlayBtn;
     private ArrayList<Song> songList = new ArrayList<>();
     private SongAdapter songAdapter;
     private SharedPreferences m_SharedPreferences;
@@ -32,8 +35,47 @@ public class MainActivity extends AppCompatActivity {
 
         m_SharedPreferences = getSharedPreferences("details",MODE_PRIVATE);
 
+        setAddBtn();
+        setPlayBtn();
+
         m_DeleteDialog = new DeleteDialog(this,new DeleteListener());
         setSongsRecyclerView();
+    }
+
+    private void setAddBtn() {
+        m_AddBtn = findViewById(R.id.add_song_btn);
+        m_AddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddSongActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setPlayBtn() {
+        m_PlayBtn = findViewById(R.id.play_btn);
+
+        m_PlayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                playMusic();
+            }
+        });
+
+    }
+
+    private void playMusic() {
+        if(SongsManager.getInstance().getSongListSize()>0) {
+            Intent intent = new Intent(this, MusicPlayerService.class);
+            intent.putExtra("command", "new instance");
+            startService(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "Song List Is Empty", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setSongsRecyclerView()
