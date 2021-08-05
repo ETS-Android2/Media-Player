@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SongsManager {
 
-    ArrayList<Song> m_SongList ;
+    private ArrayList<Song> m_SongList ;
     private static SongsManager m_Instance;
 
     private SongsManager() {
@@ -127,7 +127,9 @@ public class SongsManager {
         }
     }
 
-    public List<Song> getSongList() {
+    public ArrayList<Song> getSongList() {
         return m_SongList;
     }
+
+    public int getSongListSize(){return m_SongList.size();};
 }
