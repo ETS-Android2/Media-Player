@@ -1,7 +1,6 @@
 package com.example.mediaplayer;
 
 
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -33,9 +32,6 @@ import java.io.File;
 
 public class AddSongActivity extends AppCompatActivity {
 
-    private final int WRITE_PERMISSION_REQUEST = 1;
-    private final int PICK_FROM_GALLERY = 2;
-    private final int CAMERA_REQUEST = 3;
     private ImageButton m_Take_Pic_Btn,m_Pick_Photo_From_Gallery_Btn, m_Add_Song_Btn, m_Cancel_Btn;
     private File m_File;
     private String m_PhotoPath;
@@ -62,14 +58,8 @@ public class AddSongActivity extends AppCompatActivity {
 
 
         if (Build.VERSION.SDK_INT >= 23) {
-
             if(ActivityCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                 requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-//            int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//            if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-//                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
-//            }
         }
 
         m_SharedPreferences = getSharedPreferences("song_number",MODE_PRIVATE);
@@ -129,11 +119,6 @@ public class AddSongActivity extends AppCompatActivity {
 
                 if (Build.VERSION.SDK_INT >= 23) {
 
-
-//                    int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//                    if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-//                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
-
                     if(ActivityCompat.checkSelfPermission(AddSongActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                         requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     else
@@ -160,10 +145,6 @@ public class AddSongActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (Build.VERSION.SDK_INT >= 23) {
-//                    int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//                    if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-//                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
-//                    }
                     if(ActivityCompat.checkSelfPermission(AddSongActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                         requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     else
@@ -191,10 +172,6 @@ public class AddSongActivity extends AppCompatActivity {
     }
 
     private void choosePic() {
-//        Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        galleryIntent.setType("image/*");
-//
-//        startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
 
 
         pickContentResultLauncher.launch("Image/*");
@@ -216,59 +193,9 @@ public class AddSongActivity extends AppCompatActivity {
 
         m_TempImageUri = imageUri;
         cameraResultLauncher.launch(imageUri);
-
-        // Toast.makeText(AddSongActivity.this, imageUri.toString(), Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-//        startActivityForResult(intent,CAMERA_REQUEST);
-
-
     }
 
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        if (requestCode == WRITE_PERMISSION_REQUEST) {
-//            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(this, "No Permissions", Toast.LENGTH_SHORT).show();
-//                onBackPressed();
-//            }
-//        }
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        Uri selectedImageUri = null;
-//
-//        if(requestCode == PICK_FROM_GALLERY && resultCode == AppCompatActivity.RESULT_OK)
-//        {
-//            if (data != null) {
-//                selectedImageUri = data.getData();
-//                //m_Song_Photo.setImageURI(selectedImageUri);
-//                m_PhotoPath = selectedImageUri.toString();
-//                Glide.with(this).load(m_PhotoPath).into(m_Song_Photo);
-//
-//                isPhoto = true;
-//            }
-//        }
-//
-//        else {
-//            if (requestCode == CAMERA_REQUEST && resultCode == AppCompatActivity.RESULT_OK)
-//            {
-//
-//                m_PhotoPath = m_File.getAbsolutePath();
-//                Glide.with(this).load(m_PhotoPath).into(m_Song_Photo);
-//
-//                isPhoto = true;
-//            }
-//
-//
-//        }
-//    }
 
     @Override
     protected void onResume() {
