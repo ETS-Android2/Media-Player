@@ -5,23 +5,20 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,10 +28,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.mediaplayer.Model.Song;
 import com.example.mediaplayer.Model.SongsManager;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
-import java.util.ArrayList;
 
 public class AddSongActivity extends AppCompatActivity {
 
@@ -55,6 +50,7 @@ public class AddSongActivity extends AppCompatActivity {
     ActivityResultLauncher<String> requestPermissionLauncher;
     ActivityResultLauncher<Uri> cameraResultLauncher;
     ActivityResultLauncher<String> pickContentResultLauncher;
+    //ActivityResultLauncher<Intent> pickImageResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +81,7 @@ public class AddSongActivity extends AppCompatActivity {
         m_Song_Photo = findViewById(R.id.song_photo_add_screen);
         setAddSongBtn();
         setChoosePicBtn();
-        setPickSongBtn();
+        setPicSongBtn();
         setCancelBtn();
 
     }
@@ -123,7 +119,7 @@ public class AddSongActivity extends AppCompatActivity {
         });
     }
 
-    private void setChoosePicBtn() {
+    private void setPicSongBtn() {
 
         m_Take_Pic_Btn = findViewById(R.id.take_pic_btn);
         m_Take_Pic_Btn.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +153,7 @@ public class AddSongActivity extends AppCompatActivity {
 
 
 
-    private void setPickSongBtn() {
+    private void setChoosePicBtn() {
         m_Pick_Photo_From_Gallery_Btn = findViewById(R.id.choose_gall_photo_btn);
         m_Pick_Photo_From_Gallery_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +195,15 @@ public class AddSongActivity extends AppCompatActivity {
 //        galleryIntent.setType("image/*");
 //
 //        startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+
+
         pickContentResultLauncher.launch("Image/*");
+
+//        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+//        intent.setType("Image/*");
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//        pickImageResultLauncher.launch(intent);
     }
 
     private void takePic() {
@@ -311,6 +315,26 @@ public class AddSongActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+//        pickImageResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+//            @Override
+//            public void onActivityResult(ActivityResult result) {
+//                if(result.getResultCode() == Activity.RESULT_OK){
+//
+//                    Context context = AddSongActivity.this;
+//                    Uri pic = result.getData().getData();
+//                    if(pic != null)
+//                    {
+//                        Glide.with(context).load(m_PhotoPath).into(m_Song_Photo);
+//                        context.getContentResolver().takePersistableUriPermission(pic, result.getData().getFlags()
+//                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION + Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+//                        m_PhotoPath = pic.toString();
+//                        isPhoto = true;
+//                    }
+//
+//                }
+//            }
+//        });
     }
 
 

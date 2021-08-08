@@ -14,7 +14,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:gravity="center"
-            android:id="@+id/notif_song_photo"/>
+            android:id="@+id/notif_song_photo"
+            android:layout_margin="5dp"/>
 
         <LinearLayout
             android:layout_width="0dp"
