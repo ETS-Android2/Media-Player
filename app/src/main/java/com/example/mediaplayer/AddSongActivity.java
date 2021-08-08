@@ -1,8 +1,13 @@
 package com.example.mediaplayer;
 
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
@@ -16,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,13 +34,14 @@ import com.example.mediaplayer.Model.SongsManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class AddSongActivity extends AppCompatActivity {
 
     private final int WRITE_PERMISSION_REQUEST = 1;
     private final int PICK_FROM_GALLERY = 2;
     private final int CAMERA_REQUEST = 3;
-    private ImageButton m_Take_Pic_Btn,m_Pick_Photo_From_Gallery_Btn, m_Add_Song_Btn;
+    private ImageButton m_Take_Pic_Btn,m_Pick_Photo_From_Gallery_Btn, m_Add_Song_Btn, m_Cancel_Btn;
     private File m_File;
     private String m_PhotoPath;
     private SharedPreferences m_SharedPreferences;
@@ -42,17 +49,31 @@ public class AddSongActivity extends AppCompatActivity {
     private int m_CounterPhotos;
     private ImageView m_Song_Photo;
     private Boolean isPhoto = false ;
+    private Uri m_TempImageUri;
+
+
+    ActivityResultLauncher<String> requestPermissionLauncher;
+    ActivityResultLauncher<Uri> cameraResultLauncher;
+    ActivityResultLauncher<String> pickContentResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_song);
 
+        initLaunchers();
+
+
+
         if (Build.VERSION.SDK_INT >= 23) {
-            int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
-            }
+
+            if(ActivityCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+//            int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//            if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
+//            }
         }
 
         m_SharedPreferences = getSharedPreferences("song_number",MODE_PRIVATE);
@@ -65,10 +86,9 @@ public class AddSongActivity extends AppCompatActivity {
         setAddSongBtn();
         setChoosePicBtn();
         setPickSongBtn();
-        addSongDialog = new AddSongDialog(this,new AddDialogLisiner());
+        setCancelBtn();
 
     }
-
 
     private void setAddSongBtn() {
         m_Add_Song_Btn = findViewById(R.id.add_song_btn);
@@ -97,7 +117,8 @@ public class AddSongActivity extends AppCompatActivity {
                 editor.putInt("song_number",(m_CounterPhotos+1));
                 editor.commit();
 
-                addSongDialog.show();
+                Toast.makeText(AddSongActivity.this, getResources().getString(R.string.song_added_successfully), Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
         });
     }
@@ -111,10 +132,14 @@ public class AddSongActivity extends AppCompatActivity {
 
 
                 if (Build.VERSION.SDK_INT >= 23) {
-                    int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
-                    }
+
+
+//                    int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//                    if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
+//                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
+
+                    if(ActivityCompat.checkSelfPermission(AddSongActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     else
                     {
                         takePic();
@@ -139,10 +164,12 @@ public class AddSongActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (Build.VERSION.SDK_INT >= 23) {
-                    int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
-                    }
+//                    int hasWritePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//                    if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
+//                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
+//                    }
+                    if(ActivityCompat.checkSelfPermission(AddSongActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     else
                     {
                         choosePic();
@@ -155,11 +182,24 @@ public class AddSongActivity extends AppCompatActivity {
             }
         });
     }
-    private void choosePic() {
-        Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryIntent.setType("image/*");
 
-        startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+    private void setCancelBtn() {
+
+        m_Cancel_Btn = findViewById(R.id.cancel_btn);
+        m_Cancel_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    private void choosePic() {
+//        Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        galleryIntent.setType("image/*");
+//
+//        startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+        pickContentResultLauncher.launch("Image/*");
     }
 
     private void takePic() {
@@ -167,60 +207,64 @@ public class AddSongActivity extends AppCompatActivity {
 
         Uri imageUri = FileProvider.getUriForFile(
                 AddSongActivity.this,
-                "com.example.musicplayer.provider", //(use your app signature + ".provider" )
+                "com.example.mediaplayer.provider", //(use your app signature + ".provider" )
                 m_File);
 
+        m_TempImageUri = imageUri;
+        cameraResultLauncher.launch(imageUri);
 
         // Toast.makeText(AddSongActivity.this, imageUri.toString(), Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-        startActivityForResult(intent,CAMERA_REQUEST);
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+//        startActivityForResult(intent,CAMERA_REQUEST);
+
+
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if (requestCode == WRITE_PERMISSION_REQUEST) {
+//            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(this, "No Permissions", Toast.LENGTH_SHORT).show();
+//                onBackPressed();
+//            }
+//        }
+//    }
 
-        if (requestCode == WRITE_PERMISSION_REQUEST) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "No Permissions", Toast.LENGTH_SHORT).show();
-                onBackPressed();
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Uri selectedImageUri = null;
-
-        if(requestCode == PICK_FROM_GALLERY && resultCode == AppCompatActivity.RESULT_OK)
-        {
-            if (data != null) {
-                selectedImageUri = data.getData();
-                //m_Song_Photo.setImageURI(selectedImageUri);
-                m_PhotoPath = selectedImageUri.toString();
-                Glide.with(this).load(m_PhotoPath).into(m_Song_Photo);
-
-                isPhoto = true;
-            }
-        }
-
-        else {
-            if (requestCode == CAMERA_REQUEST && resultCode == AppCompatActivity.RESULT_OK)
-            {
-
-                m_PhotoPath = m_File.getAbsolutePath();
-                Glide.with(this).load(m_PhotoPath).into(m_Song_Photo);
-
-                isPhoto = true;
-            }
-
-
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        Uri selectedImageUri = null;
+//
+//        if(requestCode == PICK_FROM_GALLERY && resultCode == AppCompatActivity.RESULT_OK)
+//        {
+//            if (data != null) {
+//                selectedImageUri = data.getData();
+//                //m_Song_Photo.setImageURI(selectedImageUri);
+//                m_PhotoPath = selectedImageUri.toString();
+//                Glide.with(this).load(m_PhotoPath).into(m_Song_Photo);
+//
+//                isPhoto = true;
+//            }
+//        }
+//
+//        else {
+//            if (requestCode == CAMERA_REQUEST && resultCode == AppCompatActivity.RESULT_OK)
+//            {
+//
+//                m_PhotoPath = m_File.getAbsolutePath();
+//                Glide.with(this).load(m_PhotoPath).into(m_Song_Photo);
+//
+//                isPhoto = true;
+//            }
+//
+//
+//        }
+//    }
 
     @Override
     protected void onResume() {
@@ -229,24 +273,46 @@ public class AddSongActivity extends AppCompatActivity {
         m_CounterPhotos = m_SharedPreferences.getInt("song_number",0);
     }
 
-    private class AddDialogLisiner implements AddSongDialog.MyAddDialogListener
-    {
-        @Override
-        public void onKeepAddBtnClicked(View view) {
-            m_Song_Link_ET.setText("");
-            m_Song_Name_ET.setText("");
-            m_Song_Performer_ET.setText("");
-            m_Song_Photo.setImageResource(R.drawable.ic_add_song_screen_phtos);
-            m_PhotoPath = "";
-            isPhoto = false;
+    private void initLaunchers() {
 
-        }
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+            @Override
+            public void onActivityResult(Boolean result) {
+                if(!result)
+                {
+                    Toast.makeText(AddSongActivity.this, "No Permissions", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+            }
+        });
 
-        @Override
-        public void onFinishAddBtnClicked(View view) {
-            AddSongActivity.this.onBackPressed();
-        }
+        cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
+                    @Override
+                    public void onActivityResult(Boolean result) {
+                        if(result)
+                        {
+                            m_PhotoPath = m_TempImageUri.toString();
+                            Glide.with(AddSongActivity.this).load(m_PhotoPath).into(m_Song_Photo);
+
+                            isPhoto = true;
+                        }
+
+                    }
+                });
+
+
+                pickContentResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri result) {
+                        if (result != null) {
+                            m_PhotoPath = result.toString();
+                            Glide.with(AddSongActivity.this).load(m_PhotoPath).into(m_Song_Photo);
+                            isPhoto = true;
+                        }
+                    }
+                });
     }
+
 
 
 }

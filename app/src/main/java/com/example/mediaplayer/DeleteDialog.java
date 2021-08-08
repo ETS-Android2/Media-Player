@@ -11,6 +11,8 @@ import com.example.mediaplayer.Model.ApplicationContext;
 
 public class DeleteDialog {
 
+    Context m_context;
+
     private AlertDialog.Builder m_DeleteDialog_Builder;
     private AlertDialog m_DeleteDialog;
     private View m_DeleteDialogView;
@@ -23,10 +25,11 @@ public class DeleteDialog {
         void onNoBtnClicked(int position, View view);
     }
 
-    public DeleteDialog(Context context, MyDeleteListener listener) {
+    public DeleteDialog(Context m_context, MyDeleteListener listener) {
+        this.m_context = m_context;
         this.m_listener = listener;
         m_Position = 0;
-        m_DeleteDialogView = ((AppCompatActivity)context).getLayoutInflater().inflate(R.layout.delete_song_dialog_layout,null, false);
+        m_DeleteDialogView = ((AppCompatActivity)m_context).getLayoutInflater().inflate(R.layout.delete_song_dialog_layout,null, false);
         m_YesBtn = m_DeleteDialogView.findViewById(R.id.yes_btn);
         m_NoBtn = m_DeleteDialogView.findViewById(R.id.no_btn);
         setEndLevelDialog();
@@ -34,7 +37,7 @@ public class DeleteDialog {
 
     private void setEndLevelDialog()
     {
-        m_DeleteDialog_Builder = new AlertDialog.Builder(ApplicationContext.getContext());
+        m_DeleteDialog_Builder = new AlertDialog.Builder(m_context);
         m_DeleteDialog_Builder.setView(m_DeleteDialogView);
         m_DeleteDialog = m_DeleteDialog_Builder.create();
 

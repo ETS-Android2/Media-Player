@@ -66,7 +66,8 @@
                 android:scaleType="fitXY"
                 android:background="@null"
                 android:layout_marginEnd="10dp"
-                android:id="@+id/choose_gall_photo_btn"/>
+                android:id="@+id/choose_gall_photo_btn"
+                android:src="@color/white"/>
 
             <ImageButton
                 android:layout_width="100dp"
@@ -74,7 +75,9 @@
                 android:scaleType="fitXY"
                 android:background="@null"
                 android:layout_marginStart="10dp"
-                android:id="@+id/take_pic_btn"/>
+                android:id="@+id/take_pic_btn"
+                android:src="@color/black"
+                />
 
         </LinearLayout>
 
@@ -106,7 +109,8 @@
                 android:scaleType="fitXY"
                 android:background="@null"
                 android:id="@+id/add_song_btn"
-                android:layout_marginLeft="50dp"/>
+                android:layout_marginLeft="50dp"
+                android:src="@mipmap/ic_launcher"/>
 
             <ImageButton
                 android:layout_width="100dp"
@@ -114,12 +118,11 @@
                 android:layout_gravity="end|center"
                 android:scaleType="fitXY"
                 android:background="@null"
-                android:id="@+id/back_btn"
-                android:layout_marginRight="50dp"/>
+                android:id="@+id/cancel_btn"
+                android:layout_marginRight="50dp"
+                android:src="@drawable/no_icon"/>
 
         </FrameLayout>
-
-
     </LinearLayout>
 
 </LinearLayout>

@@ -18,6 +18,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     private List<Song> m_SongsList;
     private MySongListener listener;
+    Context m_context;
 
     public interface MySongListener {
         void onSongClicked(int position, View view);
@@ -63,6 +64,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public SongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.song_layout,parent,false);
         SongViewHolder songViewHolder = new SongViewHolder(view);
+        m_context = parent.getContext();
         return songViewHolder;
     }
 
@@ -72,7 +74,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         holder.Song_Name_TextView.setText(current_Song.getSongName());
         holder.Performer_Song_Name_TextView.setText(current_Song.getSongPerformer());
 
-        Glide.with(ApplicationContext.getContext()).load(current_Song.getPhotoPath()).into(holder.song_photo);
+        Glide.with(m_context).load(current_Song.getPhotoPath()).into(holder.song_photo);
     }
 
     @Override

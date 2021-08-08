@@ -1,5 +1,6 @@
 package com.example.mediaplayer.Model;
 
+import android.content.Context;
 import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class SongsManager {
 
-    private ArrayList<Song> m_SongList ;
+    ArrayList<Song> m_SongList ;
     private static SongsManager m_Instance;
 
     private SongsManager() {
@@ -115,7 +116,7 @@ public class SongsManager {
     public void saveList(AppCompatActivity activity)
     {
         try {
-            FileOutputStream fos = activity.openFileOutput("songs list",activity.MODE_PRIVATE);
+            FileOutputStream fos = activity.openFileOutput("songs list", Context.MODE_PRIVATE);
             ObjectOutputStream oos  = new ObjectOutputStream(fos);
             oos.writeObject(m_SongList);
             oos.close();
@@ -131,5 +132,6 @@ public class SongsManager {
         return m_SongList;
     }
 
+    //TODO check
     public int getSongListSize(){return m_SongList.size();};
 }

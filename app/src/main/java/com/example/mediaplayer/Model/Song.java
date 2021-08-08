@@ -2,7 +2,7 @@ package com.example.mediaplayer.Model;
 
 import java.io.Serializable;
 
-public class Song
+public class Song implements Serializable
 {
     String m_SongName, m_SongPerformer;
     String m_PhotoPath;

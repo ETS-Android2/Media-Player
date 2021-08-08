@@ -9,13 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
+        <ImageView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:background="@null"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:id="@+id/close_notif_btn"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:id="@+id/notif_song_photo"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -37,15 +36,16 @@
                 android:textColor="@color/white"
                 android:id="@+id/notificatiion_performer_song_name"/>
 
-
         </LinearLayout>
 
-        <ImageView
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:gravity="center"
-            android:id="@+id/notif_song_photo"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:id="@+id/close_notif_btn"
+            android:layout_marginEnd="10dp"/>
 
     </LinearLayout>
 
