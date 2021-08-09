@@ -10,4 +10,5 @@
     <string name="please_add_photo_string">Please add photo</string>
     <string name="song_added_successfully">The song was successfully added</string>
     <string name="no_permissions">No Permissions</string>
+    <string name="empty_song_list">Song List Is Empty</string>
 </resources>

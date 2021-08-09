@@ -11,4 +11,5 @@
     <string name="please_add_photo_string">בבקשה הוסף תמונה</string>
     <string name="song_added_successfully">השיר הוסף בהצלחה</string>
     <string name="no_permissions">אין הרשאות</string>
+    <string name="empty_song_list">רשימת השירים ריקה</string>
 </resources>

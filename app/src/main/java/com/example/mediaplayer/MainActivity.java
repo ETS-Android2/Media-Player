@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(this, "Song List Is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.empty_song_list, Toast.LENGTH_SHORT).show();
         }
     }
 
