@@ -1,6 +1,7 @@
 package com.example.mediaplayer;
 
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -47,8 +48,8 @@ public class AddSongActivity extends AppCompatActivity {
 
     ActivityResultLauncher<String> requestPermissionLauncher;
     ActivityResultLauncher<Uri> cameraResultLauncher;
-    ActivityResultLauncher<String> pickContentResultLauncher;
-    //ActivityResultLauncher<Intent> pickImageResultLauncher;
+    //ActivityResultLauncher<String> pickContentResultLauncher;
+    ActivityResultLauncher<Intent> pickImageResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,13 +177,13 @@ public class AddSongActivity extends AppCompatActivity {
     private void choosePic() {
 
 
-        pickContentResultLauncher.launch("Image/*");
+        //pickContentResultLauncher.launch("image/*");
 
-//        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-//        intent.setType("Image/*");
-//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//        pickImageResultLauncher.launch(intent);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        pickImageResultLauncher.launch(intent);
     }
 
     private void takePic() {
@@ -239,41 +240,41 @@ public class AddSongActivity extends AppCompatActivity {
                 });
 
 
-                pickContentResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri result) {
-                        if (result != null) {
-                            m_PhotoPath = result.toString();
-                            Glide.with(AddSongActivity.this)
-                                    .load(m_PhotoPath)
-                                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                                    .into(m_Song_Photo);
-                            //Glide.with(AddSongActivity.this).load(m_PhotoPath).into(m_Song_Photo);
-                            isPhoto = true;
-                        }
-                    }
-                });
-
-//        pickImageResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-//            @Override
-//            public void onActivityResult(ActivityResult result) {
-//                if(result.getResultCode() == Activity.RESULT_OK){
-//
-//                    Context context = AddSongActivity.this;
-//                    Uri pic = result.getData().getData();
-//                    if(pic != null)
-//                    {
-//                        Glide.with(context).load(m_PhotoPath).into(m_Song_Photo);
-//                        context.getContentResolver().takePersistableUriPermission(pic, result.getData().getFlags()
-//                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION + Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
-//                        m_PhotoPath = pic.toString();
-//                        isPhoto = true;
+//                pickContentResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+//                    @Override
+//                    public void onActivityResult(Uri result) {
+//                        if (result != null) {
+//                            m_PhotoPath = result.toString();
+////                            Glide.with(AddSongActivity.this)
+////                                    .load(m_PhotoPath)
+////                                    .apply(RequestOptions.skipMemoryCacheOf(true))
+////                                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+////                                    .into(m_Song_Photo);
+//                            Glide.with(AddSongActivity.this).load(m_PhotoPath).into(m_Song_Photo);
+//                            isPhoto = true;
+//                        }
 //                    }
-//
-//                }
-//            }
-//        });
+//                });
+
+        pickImageResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if(result.getResultCode() == Activity.RESULT_OK){
+
+                    Context context = AddSongActivity.this;
+                    Uri pic = result.getData().getData();
+                    if(pic != null)
+                    {
+                        Glide.with(context).load(pic).into(m_Song_Photo);
+                        context.getContentResolver().takePersistableUriPermission(pic, result.getData().getFlags()
+                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION + Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                        m_PhotoPath = pic.toString();
+                        isPhoto = true;
+                    }
+
+                }
+            }
+        });
     }
 
 
