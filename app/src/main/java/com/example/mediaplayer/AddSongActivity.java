@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mediaplayer.Model.Song;
 import com.example.mediaplayer.Model.SongsManager;
 
@@ -103,7 +105,7 @@ public class AddSongActivity extends AppCompatActivity {
                 editor.putInt("song_number",(m_CounterPhotos+1));
                 editor.commit();
 
-                Toast.makeText(AddSongActivity.this, getResources().getString(R.string.song_added_successfully), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddSongActivity.this, R.string.song_added_successfully, Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
@@ -211,7 +213,7 @@ public class AddSongActivity extends AppCompatActivity {
             public void onActivityResult(Boolean result) {
                 if(!result)
                 {
-                    Toast.makeText(AddSongActivity.this, "No Permissions", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddSongActivity.this, R.string.no_permissions, Toast.LENGTH_SHORT).show();
                     onBackPressed();
                 }
             }
@@ -223,7 +225,12 @@ public class AddSongActivity extends AppCompatActivity {
                         if(result)
                         {
                             m_PhotoPath = m_TempImageUri.toString();
-                            Glide.with(AddSongActivity.this).load(m_PhotoPath).into(m_Song_Photo);
+                            Glide.with(AddSongActivity.this)
+                                    .load(m_PhotoPath)
+                                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                                    .into(m_Song_Photo);
+                            //Glide.with(AddSongActivity.this).load(m_PhotoPath).into(m_Song_Photo);
 
                             isPhoto = true;
                         }
@@ -237,7 +244,12 @@ public class AddSongActivity extends AppCompatActivity {
                     public void onActivityResult(Uri result) {
                         if (result != null) {
                             m_PhotoPath = result.toString();
-                            Glide.with(AddSongActivity.this).load(m_PhotoPath).into(m_Song_Photo);
+                            Glide.with(AddSongActivity.this)
+                                    .load(m_PhotoPath)
+                                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                                    .into(m_Song_Photo);
+                            //Glide.with(AddSongActivity.this).load(m_PhotoPath).into(m_Song_Photo);
                             isPhoto = true;
                         }
                     }

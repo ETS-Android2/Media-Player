@@ -10,4 +10,5 @@
     <string name="fill_all_fileds_string">בבקשה למלא את כל השדות</string>
     <string name="please_add_photo_string">בבקשה הוסף תמונה</string>
     <string name="song_added_successfully">השיר הוסף בהצלחה</string>
+    <string name="no_permissions">אין הרשאות</string>
 </resources>

@@ -4,38 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/activity_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:id="@+id/play_btn"
             android:gravity="center"
-            android:text="play"
+            android:background="@drawable/play_circle_icon"
+            android:layout_margin="15dp"
             />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="logo"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold|italic" />
+            android:src="@drawable/music_logo_icon"
+            />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="add"
+            android:layout_weight="0.5"
             android:id="@+id/add_song_btn"
+            android:background="@drawable/add_circle_icon"
+            android:layout_margin="15dp"
             />
 
     </LinearLayout>

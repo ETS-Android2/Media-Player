@@ -95,7 +95,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
 
 
         m_Notif_Builder.setCustomContentView(m_RemoteViews);
-        m_Notif_Builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        m_Notif_Builder.setSmallIcon(R.drawable.music_logo_icon);
 
         startForeground(NOTIF_ID, m_Notif_Builder.build());
 

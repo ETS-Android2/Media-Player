@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AddSongActivity"
     android:orientation="vertical"
-    android:background="#424040">
+    android:background="@color/add_activity_background">
 
 
 
@@ -22,7 +22,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:hint="@string/enter_song_name_string"
-                android:textColorHint="@color/white"
+
                 android:gravity="center"
                 android:singleLine="true"
                 android:nextFocusDown="@id/song_name_performer_matirial_editText"
@@ -34,7 +34,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:hint="@string/enter_song_performer_string"
-                android:textColorHint="@color/white"
+
                 android:gravity="center"
                 android:singleLine="true"
                 android:nextFocusDown="@+id/song_link_matirial_editText"
@@ -45,7 +45,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:hint="@string/enter_song_link_string"
-                android:textColorHint="@color/white"
+
                 android:gravity="center"
                 android:singleLine="true"
                 android:nextFocusDown="@+id/choose_gall_photo_btn"
@@ -65,9 +65,10 @@
                 android:layout_height="100dp"
                 android:scaleType="fitXY"
                 android:background="@null"
+                android:id="@+id/take_pic_btn"
+                android:src="@drawable/add_camera_photo_icon"
                 android:layout_marginEnd="10dp"
-                android:id="@+id/choose_gall_photo_btn"
-                android:src="@color/white"/>
+                />
 
             <ImageButton
                 android:layout_width="100dp"
@@ -75,9 +76,8 @@
                 android:scaleType="fitXY"
                 android:background="@null"
                 android:layout_marginStart="10dp"
-                android:id="@+id/take_pic_btn"
-                android:src="@color/black"
-                />
+                android:id="@+id/choose_gall_photo_btn"
+                android:src="@drawable/add_gallery_photo"/>
 
         </LinearLayout>
 
@@ -110,7 +110,7 @@
                 android:background="@null"
                 android:id="@+id/add_song_btn"
                 android:layout_marginLeft="50dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/save_icon"/>
 
             <ImageButton
                 android:layout_width="100dp"

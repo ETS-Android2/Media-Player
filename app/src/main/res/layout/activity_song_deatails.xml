@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".SongDeatailsActivity"
     android:orientation="vertical"
-    android:background="#424040"
+    android:background="@color/cell"
     >
     <ImageView
         android:layout_width="match_parent"
@@ -50,12 +50,13 @@
     </LinearLayout>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:id="@+id/play_from_deatails_btn"
         android:layout_gravity="center|center"
         android:gravity="center"
+        android:background="@drawable/play_circle_filled_icon"
         />
 
     <Space

@@ -3,6 +3,7 @@ package com.example.mediaplayer;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,7 @@ public class DeleteDialog {
     private AlertDialog.Builder m_DeleteDialog_Builder;
     private AlertDialog m_DeleteDialog;
     private View m_DeleteDialogView;
-    private Button m_YesBtn, m_NoBtn;
+    private ImageButton m_YesBtn, m_NoBtn;
     private int m_Position;
     private MyDeleteListener m_listener;
 
